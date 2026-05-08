@@ -1,0 +1,47 @@
+{
+  "entities": {
+    "ResumeAnalysis": {
+      "title": "Resume Analysis",
+      "description": "A saved resume analysis result",
+      "type": "object",
+      "properties": {
+        "userId": { "type": "string", "description": "The UID of the user who saved this analysis" },
+        "filename": { "type": "string", "description": "The name of the uploaded file" },
+        "score": { "type": "number", "description": "The overall resume score" },
+        "atsScore": { "type": "number", "description": "The ATS compatibility score" },
+        "sectionScores": { "type": "object", "description": "Breakdown of scores by section" },
+        "parsedData": { "type": "object", "description": "Extracted resume data" },
+        "missingKeywords": { "type": "array", "items": { "type": "string" } },
+        "suggestions": { "type": "array", "items": { "type": "string" } },
+        "createdAt": { "type": "string", "format": "date-time", "description": "When this analysis was saved" }
+      },
+      "required": ["userId", "filename", "score", "atsScore", "createdAt"]
+    },
+    "Application": {
+      "title": "Job Application",
+      "description": "A tracked job application with resume and cover letter",
+      "type": "object",
+      "properties": {
+        "userId": { "type": "string" },
+        "companyName": { "type": "string" },
+        "jobTitle": { "type": "string" },
+        "jobDescription": { "type": "string" },
+        "resumeFilename": { "type": "string" },
+        "coverLetter": { "type": "string" },
+        "analysis": { "type": "object" },
+        "createdAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["userId", "companyName", "jobTitle", "createdAt"]
+    }
+  },
+  "firestore": {
+    "/analyses": {
+      "schema": "ResumeAnalysis",
+      "description": "Collection of saved resume analyses"
+    },
+    "/applications": {
+      "schema": "Application",
+      "description": "Collection of job applications and cover letters"
+    }
+  }
+}
