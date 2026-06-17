@@ -1,7 +1,8 @@
 {
-  "name": "react-example",
+  "name": "resumatch-ai",
   "private": true,
-  "version": "0.0.0",
+  "version": "1.0.0",
+  "description": "AI-powered resume analysis, ATS scoring, job-description matching, and cover letter generation.",
   "type": "module",
   "scripts": {
     "dev": "npx tsx server.ts",
@@ -26,6 +27,7 @@
     "pdf-parse": "^2.4.5",
     "react": "^19.0.0",
     "react-dom": "^19.0.0",
+    "react-router-dom": "^7.18.0",
     "recharts": "^3.8.1",
     "tailwind-merge": "^3.5.0"
   },
