@@ -10,10 +10,11 @@ import { getFirestore, type Firestore } from 'firebase/firestore';
 import firebaseConfig from '../firebase-applet-config.json';
 
 /**
- * Whether Firebase is configured. The committed config intentionally ships
- * without an API key, so the app must degrade gracefully: core analysis and
- * scanning still work; auth-gated features (history/applications) prompt to
- * sign in once a real config is provided.
+ * Whether Firebase is configured. The committed config holds the public
+ * Firebase web client config (the apiKey is a public identifier, not a secret;
+ * access is controlled by Auth authorized domains + Firestore security rules).
+ * If the apiKey is ever blank, the app degrades gracefully: analysis and
+ * scanning still work and auth-gated features prompt to sign in.
  */
 export const isFirebaseConfigured = Boolean(firebaseConfig.apiKey);
 
