@@ -12,6 +12,17 @@ export default defineConfig({
       '@': path.resolve(__dirname, '.'),
     },
   },
+  build: {
+    rollupOptions: {
+      output: {
+        manualChunks: {
+          'react-vendor': ['react', 'react-dom', 'react-router-dom'],
+          firebase: ['firebase/app', 'firebase/auth', 'firebase/firestore'],
+          motion: ['motion'],
+        },
+      },
+    },
+  },
   server: {
     hmr: process.env.DISABLE_HMR !== 'true',
   },
