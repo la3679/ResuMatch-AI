@@ -1,5 +1,5 @@
 import mammoth from 'mammoth';
-import { PDFParse } from 'pdf-parse';
+import { extractText, getDocumentProxy } from 'unpdf';
 import { ApiError } from '../lib/ApiError.js';
 
 /**
@@ -13,13 +13,10 @@ export async function extractResumeText(buffer: Buffer, originalName: string): P
 
   try {
     if (ext === 'pdf') {
-      const parser = new PDFParse({ data: buffer });
-      try {
-        const data = await parser.getText();
-        text = data.text ?? '';
-      } finally {
-        await parser.destroy();
-      }
+      // unpdf is a serverless-friendly pdfjs build with no native dependencies.
+      const pdf = await getDocumentProxy(new Uint8Array(buffer));
+      const result = await extractText(pdf, { mergePages: true });
+      text = Array.isArray(result.text) ? result.text.join('\n') : result.text;
     } else if (ext === 'docx') {
       const data = await mammoth.extractRawText({ buffer });
       text = data.value ?? '';
