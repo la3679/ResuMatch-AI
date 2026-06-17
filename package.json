@@ -3,7 +3,6 @@
   "private": true,
   "version": "1.0.0",
   "description": "AI-powered resume analysis, ATS scoring, job-description matching, and cover letter generation.",
-  "type": "module",
   "engines": {
     "node": "20.x"
   },
