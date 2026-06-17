@@ -1,238 +1,458 @@
+<div align="center">
+
 # ResuMatch AI
 
-> AI-powered career optimization platform — analyze your resume, score it for ATS, match it against any job description, generate tailored cover letters, and track your applications.
+### AI-powered resume analysis, ATS optimization, job matching, and cover letter generation platform.
 
-ResuMatch AI helps job seekers move from a generic resume to a targeted, recruiter-ready application. Upload a resume to get an instant AI analysis with an overall score and ATS compatibility score, a section-by-section breakdown, extracted skills/experience/education/projects, missing keywords, and prioritized suggestions. Then scan it against a specific job description for a match score, keyword gaps, and a generated cover letter you can edit, download, and save.
+[![React](https://img.shields.io/badge/React-19-61DAFB?logo=react&logoColor=white)](https://react.dev/)
+[![TypeScript](https://img.shields.io/badge/TypeScript-5.8-3178C6?logo=typescript&logoColor=white)](https://www.typescriptlang.org/)
+[![Vite](https://img.shields.io/badge/Vite-6-646CFF?logo=vite&logoColor=white)](https://vitejs.dev/)
+[![Tailwind CSS](https://img.shields.io/badge/Tailwind_CSS-4-06B6D4?logo=tailwindcss&logoColor=white)](https://tailwindcss.com/)
+[![Firebase](https://img.shields.io/badge/Firebase-Auth_%26_Firestore-FFCA28?logo=firebase&logoColor=black)](https://firebase.google.com/)
+[![Google Gemini](https://img.shields.io/badge/Google_Gemini-AI-8E75B2?logo=googlegemini&logoColor=white)](https://ai.google.dev/)
+[![Vercel](https://img.shields.io/badge/Deployed_on-Vercel-000000?logo=vercel&logoColor=white)](https://vercel.com/)
+
+**[🔗 Live Demo → resumatch-ai-nu.vercel.app](https://resumatch-ai-nu.vercel.app)**
+
+</div>
 
 ---
 
-## ✨ Features
+## 📋 Overview
 
-- **AI resume analysis** — overall score plus a breakdown across skills, experience, education, projects, and formatting.
-- **ATS compatibility score** — how easily applicant tracking systems can parse and rank your resume.
-- **Content extraction** — skills, experience, education, and projects parsed from your resume.
-- **Keyword gap analysis** — high-value keywords recruiters and ATS look for that your resume is missing.
-- **Actionable suggestions** — prioritized, specific improvements with a "improve this first" highlight.
-- **Targeted job scan** — paste a job description for a match score, missing keywords, and what to add/remove.
-- **AI cover letter generation** — tailored to the company and role, editable, copyable, and downloadable.
-- **Job match recommendations** — sample roles ranked by skill overlap, with matched and missing skills.
-- **Saved history & applications** — signed-in users can save, revisit, and delete analyses and applications, with application status tracking.
-- **Polished, responsive UI** — landing page, dashboards, modals, toasts, loading/empty/error states, mobile navigation, and accessible forms.
+**ResuMatch AI** is a full-stack career optimization platform that helps job seekers turn a generic resume into a targeted, recruiter-ready application. Upload a resume and the app extracts the text, analyzes it with **Google Gemini**, and returns an overall score, an ATS-compatibility score, a section-by-section breakdown, extracted skills, missing keywords, and prioritized, actionable suggestions.
 
-## 🧭 App flow
+Beyond a single analysis, ResuMatch AI lets you scan your resume against a specific **job description**, generate a tailored **cover letter**, and discover **matching roles** based on your skills. Signed-in users can save their analyses and applications to **Cloud Firestore** and revisit or delete them anytime.
 
-1. **Landing** → understand the product and jump in.
-2. **Analyze** (`/analyze`) → upload a PDF/DOCX resume; text is extracted server-side and analyzed by AI.
-3. **Dashboard** (`/dashboard`) → overall + ATS scores, section breakdown, extracted data, missing keywords, suggestions; download suggestions or find matching jobs.
-4. **Job matches** (`/jobs`) → recommended sample roles ranked by skill match.
-5. **Targeted scan** (`/scan`) → company, title, job description, and resume → match score, keyword gaps, add/remove, and a tailored cover letter.
-6. **History & Applications** (`/history`, `/applications`) → signed-in users save and manage past analyses and applications.
-7. **Account** (`/account`) → profile and saved-data overview.
+What it does:
 
-## 🛠 Tech stack
+- Upload a resume as **PDF or DOCX** and extract clean text server-side
+- Analyze the resume with **Google Gemini** and produce structured JSON results
+- Generate an **overall resume score** and an **ATS compatibility score**
+- Show **section-level scoring** (skills, experience, education, projects, formatting)
+- Detect **missing keywords** recruiters and ATS systems look for
+- Provide **prioritized improvement suggestions** ("fix this first")
+- Run a **targeted scan** comparing the resume against a pasted job description
+- Generate, edit, and download a **tailored cover letter**
+- Recommend **matching roles** from a curated sample dataset
+- Save **analysis history** and **applications** with Firebase Auth + Firestore
+- Track applications with statuses (Saved, Applied, Interviewing, Offer, Rejected)
 
-- **Frontend:** React 19, Vite, TypeScript, Tailwind CSS v4, React Router, Motion, Lucide icons
-- **Backend:** Node.js, Express, Multer, pdf-parse, Mammoth.js
-- **AI:** Google Gemini (`@google/genai`) — server-side only
-- **Auth & data:** Firebase Auth (Google sign-in), Cloud Firestore
+---
 
-## 🏗 Architecture
+## 🚀 Features
 
-The frontend is a static Vite SPA. The API is a set of server-side routes that run two ways:
+| Feature | Description |
+| --- | --- |
+| 🤖 **AI Resume Analysis** | Overall score plus structured insights powered by Google Gemini. |
+| ✅ **ATS Compatibility Scoring** | Measures how easily applicant tracking systems can parse and rank your resume. |
+| 📊 **Resume Section Breakdown** | Per-section scores for skills, experience, education, projects, and formatting. |
+| 🔑 **Keyword Gap Detection** | Surfaces high-value keywords missing from your resume. |
+| 🎯 **Targeted Job Description Scan** | Compares your resume to a specific role for a match score and gap analysis. |
+| ✍️ **AI Cover Letter Generator** | Produces a tailored, editable, downloadable cover letter. |
+| 💼 **Job Matching** | Ranks curated sample roles by skill overlap (clearly labeled as sample data). |
+| 🗂️ **Application Tracking** | Save applications and track their status through the hiring pipeline. |
+| 🔐 **Firebase Google Authentication** | Secure Google sign-in for personalized, private data. |
+| 🔥 **Firestore History** | Persists analyses and applications, scoped to the signed-in user. |
+| 📄 **PDF / DOCX Upload** | In-memory parsing with `unpdf` (PDF) and `mammoth` (DOCX). |
+| ▲ **Vercel Serverless API** | Production API runs as Vercel serverless functions. |
+| 🔒 **Secure Gemini Handling** | The Gemini API key stays server-side and is never exposed to the browser. |
 
-- **Local development:** an Express server (`server/`) runs Vite in middleware mode and serves the `/api/*` routes (`npm run dev`).
-- **Production (Vercel):** the SPA is served as static `dist/`, and each `/api/*` route is a Vercel serverless function (`api/**`). Both share the same logic in `server/services/`.
+---
 
-All AI calls run **server-side**. The browser calls internal `/api` endpoints; the server calls Gemini. **`GEMINI_API_KEY` is never exposed to the client.**
+## 🖼️ Screenshots
 
+> Screenshots can be added under `docs/screenshots/`. Suggested captures:
+
+| View | Path |
+| --- | --- |
+| Resume upload | `docs/screenshots/upload.png` |
+| Analysis dashboard | `docs/screenshots/dashboard.png` |
+| Targeted job scan | `docs/screenshots/targeted-scan.png` |
+| Job matches | `docs/screenshots/job-matches.png` |
+
+---
+
+## 🛠️ Tech Stack
+
+**Frontend**
+
+| Technology | Role |
+| --- | --- |
+| React 19 | UI library |
+| TypeScript | Type-safe development |
+| Vite 6 | Build tool & dev server |
+| Tailwind CSS 4 | Styling / design system |
+| React Router | Client-side routing |
+| Motion | Animations & micro-interactions |
+| Lucide React | Icon set |
+
+**Backend / API**
+
+| Technology | Role |
+| --- | --- |
+| Vercel Serverless Functions (`api/`) | Production API runtime |
+| Node.js + Express (`server/`) | Local dev API + Vite middleware |
+| Busboy | Multipart upload parsing (serverless) |
+| unpdf | PDF text extraction (no native dependencies) |
+| Mammoth.js | DOCX text extraction |
+
+**AI**
+
+| Technology | Role |
+| --- | --- |
+| Google Gemini API | Resume analysis, targeted scan, cover letters |
+| `@google/genai` | Official Gemini SDK (server-side only) |
+
+**Auth & Database**
+
+| Technology | Role |
+| --- | --- |
+| Firebase Authentication | Google Sign-In |
+| Cloud Firestore | Saved analyses & applications |
+
+**Deployment**
+
+| Technology | Role |
+| --- | --- |
+| Vercel | Hosting, serverless functions, CI/CD from `main` |
+
+---
+
+## 🏗️ Architecture
+
+The frontend is a static Vite SPA. The API runs as **Vercel serverless functions** in production and as an **Express server** locally — both share the same logic in `server/services/`. All AI calls happen server-side, so the Gemini key never reaches the browser.
+
+```text
+              ┌──────────────────────────────┐
+              │   React SPA (Vite, Tailwind)  │
+              │   Upload · Dashboard · Scan    │
+              └───────────────┬───────────────┘
+                              │  /api/*  (relative calls)
+                              ▼
+              ┌──────────────────────────────┐
+              │   Vercel Serverless Functions  │   (Express server for local dev)
+              │   api/** → server/services/**  │
+              └───────────────┬───────────────┘
+                  ┌───────────┴────────────┐
+                  ▼                         ▼
+        ┌───────────────────┐    ┌────────────────────┐
+        │  Resume Parser     │    │  Gemini Service     │
+        │  unpdf / mammoth   │    │  @google/genai      │
+        └─────────┬─────────┘    └──────────┬─────────┘
+                  │                          │
+                  └────────────┬─────────────┘
+                               ▼
+                  ┌──────────────────────────┐
+                  │  Structured JSON Analysis  │
+                  └─────────────┬────────────┘
+                                ▼
+        ┌──────────────────────────────────────────────┐
+        │  React Dashboard + Firestore (signed-in users) │
+        └──────────────────────────────────────────────┘
 ```
-ResuMatch-AI/
-├── vercel.json               # Vercel build + SPA rewrite + function config
-├── api/                      # Vercel serverless functions (production API)
+
+**Request flow:** User uploads a resume → frontend sends the file to `/api/resume/upload` → the server parses the PDF/DOCX in memory → extracted text is sent to Gemini via `/api/resume/analyze` → Gemini returns structured JSON → the React dashboard renders scores, insights, and suggestions → if the user is signed in, the analysis/application is saved to Firestore.
+
+---
+
+## 📁 Project Structure
+
+```text
+.
+├── api/                         # Vercel serverless functions (production API)
 │   ├── health.ts
-│   ├── resume/               # upload, analyze, targeted-analysis
+│   ├── resume/
+│   │   ├── upload.ts            # multipart upload + text extraction
+│   │   ├── analyze.ts           # full AI resume analysis
+│   │   └── targeted-analysis.ts # resume vs. job description
 │   ├── cover-letter/generate.ts
 │   └── jobs/match.ts
-├── server.ts                 # thin entry → server/index.ts (local dev API)
-├── server/
-│   ├── index.ts              # Express app (local dev): Vite middleware + /api routes
-│   ├── env.ts                # env loading + validation
-│   ├── routes/               # health, resume, coverLetter, jobs (Express)
-│   ├── services/             # geminiService, parseFile, jobMatch (shared by api/ + server/)
-│   ├── data/jobs.ts          # static sample roles
-│   └── lib/                  # ApiError, http (Vercel helpers), errors, safeJson, constants
+├── server/                      # Express app for local dev (mirrors /api)
+│   ├── index.ts                 # app bootstrap + Vite middleware
+│   ├── routes/                  # health, resume, coverLetter, jobs
+│   ├── services/                # geminiService, parseFile, jobMatch (shared)
+│   ├── data/jobs.ts             # static sample roles
+│   └── lib/                     # ApiError, http helpers, safeJson, constants
 ├── src/
-│   ├── main.tsx              # providers + BrowserRouter
-│   ├── App.tsx               # routes
-│   ├── pages/                # Landing, Analyze, Dashboard, JobMatches, TargetedScan, History, Applications, Account, NotFound
-│   ├── components/
-│   │   ├── common/           # Button, Card, Badge, Progress, ScoreRing, Modal, Tabs, states, toasts…
-│   │   ├── layout/           # AppLayout, Navbar, Footer, PageContainer, RequireAuthPrompt
-│   │   ├── upload/ dashboard/ jobs/ targeted/ history/ applications/ landing/
-│   ├── context/              # AnalysisContext
-│   ├── hooks/                # useAuth, useToast, useAnalysisHistory, useApplications
-│   ├── services/             # apiService (backend calls), firebaseService (Firestore)
-│   ├── types/                # shared TypeScript types
-│   ├── constants/  lib/      # routes, file limits, statuses, helpers
-│   └── firebase.ts           # resilient Firebase init
-└── firebase-applet-config.json
+│   ├── components/              # common, layout, upload, dashboard, jobs,
+│   │                            #   targeted, history, applications, landing
+│   ├── pages/                   # Landing, Analyze, Dashboard, TargetedScan,
+│   │                            #   JobMatches, History, Applications, Account
+│   ├── hooks/                   # useAuth, useToast, useAnalysisHistory, …
+│   ├── context/                 # AnalysisContext
+│   ├── services/                # apiService, firebaseService
+│   ├── types/                   # shared TypeScript types
+│   ├── constants/  lib/         # routes, file limits, helpers
+│   ├── firebase.ts              # Firebase init (resilient if unconfigured)
+│   ├── App.tsx  main.tsx  index.css
+├── firebase-applet-config.json  # public Firebase web config
+├── firestore.rules              # Firestore security rules
+├── server.ts                    # dev entry → server/index.ts
+├── vercel.json                  # Vercel build + routing config
+├── vite.config.ts
+└── package.json
 ```
 
-## 🔑 Environment variables
+---
 
-Copy `.env.example` to `.env`:
+## ⚙️ Local Development Setup
 
-| Variable         | Required | Default            | Notes                                   |
-| ---------------- | -------- | ------------------ | --------------------------------------- |
-| `GEMINI_API_KEY` | Yes (AI) | —                  | Server-side only. AI endpoints need it. |
-| `GEMINI_MODEL`   | No       | `gemini-2.0-flash` | Override the Gemini model.              |
-| `NODE_ENV`       | No       | `development`      | `production` serves `dist/`.            |
-| `PORT`           | No       | `3000`             | Server port.                            |
-
-`.env` is git-ignored. Never commit real secrets.
-
-## 🚀 Getting started
-
-**Prerequisites:** Node.js 18+, a Google AI Studio (Gemini) API key, and a Firebase project (for auth/Firestore features).
+**Prerequisites:** Node.js 20.x, npm, a Google Gemini API key, and (optionally) a Firebase project for auth/history.
 
 ```bash
-# 1. Install
+# 1. Clone the repository
+git clone https://github.com/la3679/ResuMatch-AI.git
+cd ResuMatch-AI
+
+# 2. Install dependencies
 npm install
 
-# 2. Configure
-cp .env.example .env   # then add your GEMINI_API_KEY
+# 3. Configure environment variables
+cp .env.example .env            # then add your GEMINI_API_KEY
 
-# 3. Run (API + frontend on one server)
-npm run dev            # http://localhost:3000
+# 4. Start the dev server (Express API + Vite, on one origin)
+npm run dev
 ```
 
-### Build & run production
+The app runs at **http://localhost:3000**.
+
+| Script | Description |
+| --- | --- |
+| `npm run dev` | Start the local API + frontend (http://localhost:3000) |
+| `npm run build` | Production build → `dist/` |
+| `npm run preview` | Preview the production build |
+| `npm run lint` | Type-check the project (`tsc --noEmit`) |
+
+> **Note:** Analysis and scanning work without sign-in. Saved history and applications require a configured Firebase project.
+
+---
+
+## 🔐 Environment Variables
+
+Copy `.env.example` to `.env` and provide your own values. **Never commit your real `.env`.**
+
+| Variable | Required | Scope | Notes |
+| --- | --- | --- | --- |
+| `GEMINI_API_KEY` | ✅ Yes | Server only | Powers all AI endpoints. |
+| `GEMINI_MODEL` | Optional | Server only | Defaults to `gemini-2.0-flash`. |
 
 ```bash
-npm run build          # outputs dist/
-NODE_ENV=production npx tsx server.ts
+# .env  (local) — server-side only
+GEMINI_API_KEY=your_server_side_gemini_api_key
+GEMINI_MODEL=gemini-2.0-flash
 ```
 
-### Quality checks
+**Important:**
 
-```bash
-npm run lint           # tsc --noEmit (type check)
-npm run build          # production build
+- `GEMINI_API_KEY` is **server-side only**. Do **not** prefix it with `VITE_` — a `VITE_` prefix would bundle it into the public client build.
+- The browser only ever calls relative `/api/*` routes; those server functions call Gemini.
+- In production, set `GEMINI_API_KEY` in **Vercel → Project → Settings → Environment Variables** (see below).
+
+**Firebase configuration:** This project loads its Firebase **web** config from the committed `firebase-applet-config.json` file (not from `VITE_FIREBASE_*` variables). A Firebase web config is **public by design** — the `apiKey` is a client identifier, not a private secret; security is enforced by Authorized Domains and Firestore rules. To use your own Firebase project, replace the values in `firebase-applet-config.json`:
+
+```jsonc
+{
+  "apiKey": "your_public_firebase_web_api_key",
+  "authDomain": "your-project.firebaseapp.com",
+  "projectId": "your-project",
+  "storageBucket": "your-project.firebasestorage.app",
+  "messagingSenderId": "your_sender_id",
+  "appId": "your_app_id",
+  "measurementId": "your_measurement_id",
+  "firestoreDatabaseId": "(default)"
+}
 ```
 
-## 🔥 Firebase setup
+> Do **not** commit Firebase **service-account** credentials or the Admin SDK private key — this app does not use them.
 
-Auth and Firestore power saved history and applications. Without a valid Firebase config the app still runs — analysis and scanning work fully, and auth-gated pages show a sign-in prompt.
+---
 
-1. Create a Firebase project and enable **Google** sign-in (Authentication).
-2. Create a **Cloud Firestore** database.
-3. Put your web app config in `firebase-applet-config.json` (`projectId`, `appId`, `apiKey`, `authDomain`, `firestoreDatabaseId`, `storageBucket`, …). The `apiKey` here is a public client identifier; access is controlled by Firestore security rules.
-4. Add security rules so users can only read/write their own documents, e.g. `request.auth.uid == resource.data.userId`.
+## 🔥 Firebase Setup
 
-## 🤖 Gemini setup
+Auth and Firestore power saved history and applications. The app degrades gracefully without Firebase (analysis/scanning still work, and auth-gated pages prompt to sign in).
 
-1. Create an API key in [Google AI Studio](https://aistudio.google.com/).
-2. Set `GEMINI_API_KEY` in `.env` (and optionally `GEMINI_MODEL`).
-3. The server validates AI output, strips markdown fences, and returns a clear error if the model returns malformed JSON.
+1. **Create a project** — [Firebase Console](https://console.firebase.google.com/) → *Add project*.
+2. **Register a Web App** — Project Overview → *Add app* → *Web*, then copy the config into `firebase-applet-config.json`.
+3. **Enable Google Sign-In** — *Firebase Console → Authentication → Sign-in method → Google → Enable*.
+4. **Authorize your domains** — *Firebase Console → Authentication → Settings → Authorized domains → Add domain*.
+   - Add your Vercel domain **without** the protocol or trailing slash:
+     - ✅ Correct: `resumatch-ai-nu.vercel.app`
+     - ❌ Wrong: `https://resumatch-ai-nu.vercel.app/`
+   - `localhost` is authorized by default for local development.
+5. **Create Firestore** — *Firebase Console → Firestore Database → Create database* (start in production mode).
+6. **Publish security rules** — use the rules below (also in [`firestore.rules`](firestore.rules)).
+
+### 🔒 Firestore Rules
+
+These rules ensure each document can only be read or written by its owner (`userId` must match the authenticated user):
+
+```javascript
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+    function isAuthenticated() { return request.auth != null; }
+
+    match /analyses/{analysisId} {
+      allow read:   if isAuthenticated() && resource.data.userId == request.auth.uid;
+      allow create: if isAuthenticated() && request.resource.data.userId == request.auth.uid;
+      allow delete: if isAuthenticated() && resource.data.userId == request.auth.uid;
+    }
+
+    match /applications/{applicationId} {
+      allow read:   if isAuthenticated() && resource.data.userId == request.auth.uid;
+      allow create: if isAuthenticated() && request.resource.data.userId == request.auth.uid;
+      allow update: if isAuthenticated() && resource.data.userId == request.auth.uid;
+      allow delete: if isAuthenticated() && resource.data.userId == request.auth.uid;
+    }
+  }
+}
+```
+
+---
 
 ## ▲ Vercel Deployment
 
-ResuMatch AI deploys to Vercel as a **static Vite frontend** plus **serverless functions** (the `api/` folder) that run the API in production. Configuration lives in [`vercel.json`](vercel.json).
+ResuMatch AI deploys to Vercel as a static Vite frontend plus serverless functions. Configuration lives in [`vercel.json`](vercel.json).
 
-| Setting           | Value             |
-| ----------------- | ----------------- |
-| Framework preset  | Vite              |
-| Build command     | `npm run build`   |
-| Output directory  | `dist`            |
-| Install command   | `npm install`     |
-| Node.js version   | 20.x (`engines`)  |
+| Setting | Value |
+| --- | --- |
+| Framework Preset | Vite |
+| Build Command | `npm run build` |
+| Output Directory | `dist` |
+| Install Command | `npm install` |
+| Node.js Version | 20.x |
 
-### Required environment variables (Vercel dashboard)
+**Steps:**
 
-Set in **Project → Settings → Environment Variables** (used only by the `api/**` functions, never exposed to the browser):
+1. **Connect the repo** — import the GitHub repository in the [Vercel dashboard](https://vercel.com/new). Vercel auto-detects `vercel.json`.
+2. **Add the environment variable** — *Vercel → Project → Settings → Environment Variables*:
+   - Name: `GEMINI_API_KEY`
+   - Value: your Gemini API key
+   - Environments: **Production** (and Preview if desired)
+3. **Add the Vercel domain to Firebase** — Authentication → Settings → Authorized domains (e.g. `resumatch-ai-nu.vercel.app`).
+4. **Deploy.** Production tracks the `main` branch — every push to `main` triggers a Production deployment.
 
-| Variable         | Required | Notes                                             |
-| ---------------- | -------- | ------------------------------------------------- |
-| `GEMINI_API_KEY` | Yes      | Google Gemini key. Server-side only — no `VITE_`. |
-| `GEMINI_MODEL`   | No       | Defaults to `gemini-2.0-flash`.                   |
-
-> Never prefix the Gemini key with `VITE_` — that would bundle it into the client. The browser calls `/api/*`; the functions call Gemini.
-
-### Firebase authorized domain (required for sign-in)
-
-After the first deploy, add your Vercel domain to **Firebase Console → Authentication → Settings → Authorized domains**, e.g.:
-
-- `your-project.vercel.app`
-- any custom domain you connect
-
-Without this, Google sign-in fails with `auth/unauthorized-domain`. (Analysis and scanning work signed-out; only saved history/applications need sign-in.)
-
-### API routes & SPA routing
-
-Each file in `api/` becomes a function at the matching path (e.g. `api/resume/analyze.ts` → `/api/resume/analyze`). Vercel matches functions and static files **before** the SPA catch-all rewrite (`/(.*) → /index.html`), so deep links and refreshes work and `/api/*` is never swallowed. Resume files are parsed in memory (busboy) and never stored; max upload is **4MB** (under Vercel's ~4.5MB body limit).
-
-### Deploy with the Vercel CLI
-
-```bash
-npm install -g vercel
-vercel login                 # one-time auth
-vercel link                  # link/create the project
-vercel env add GEMINI_API_KEY   # add the key (Production + Preview)
-vercel dev                   # local: Vite + /api functions on one origin
-vercel                       # preview deploy
-vercel --prod                # production deploy
-```
-
-Or import the GitHub repo in the Vercel dashboard — it auto-detects `vercel.json` (Vite, build `npm run build`, output `dist`). Add the environment variable, then deploy.
-
-### Troubleshooting
-
-| Symptom                       | Fix                                                                                       |
-| ----------------------------- | ----------------------------------------------------------------------------------------- |
-| Blank page after deploy       | Confirm output dir is `dist` and the build succeeded; check the browser console.          |
-| 404 on refresh of a route     | Ensure the `/(.*) → /index.html` rewrite is present in `vercel.json`.                     |
-| `auth/unauthorized-domain`    | Add the Vercel domain to Firebase Authentication → authorized domains.                    |
-| AI returns 503                | `GEMINI_API_KEY` is missing in Vercel env vars.                                           |
-| `/api/*` returns 404          | Routes live in `api/`; confirm the file path matches the URL and the deploy included it.  |
-| Upload fails / 413            | File exceeds 4MB or Vercel's ~4.5MB body limit; use a smaller file.                       |
-| Function timeout              | `maxDuration` is 30s in `vercel.json`; retry — Gemini calls normally finish much sooner.  |
-| PDF won't parse               | Scanned/image-only PDFs have no text layer; try a DOCX or a text-based PDF.               |
-| CORS / API error              | API and app are same-origin on Vercel; verify you're calling relative `/api/*` paths.     |
-
-## 📡 API endpoints
-
-All under `/api`:
-
-| Method | Path                       | Body                                                       | Returns                                  |
-| ------ | -------------------------- | ---------------------------------------------------------- | ---------------------------------------- |
-| GET    | `/health`                  | —                                                          | `{ status, timestamp, service }`         |
-| POST   | `/resume/upload`           | multipart `file` (PDF/DOCX, ≤ 4MB)                         | `{ filename, text, characters }`         |
-| POST   | `/resume/analyze`          | `{ resumeText }`                                           | `ResumeAnalysis`                         |
-| POST   | `/resume/targeted-analysis`| `{ resumeText, jobDescription }`                           | `TargetedAnalysis`                       |
-| POST   | `/cover-letter/generate`   | `{ resumeText, jobDescription, companyName, jobTitle }`    | `{ coverLetter }`                        |
-| POST   | `/jobs/match`              | `{ resume_skills: string[] }`                              | `JobMatch[]` (sorted)                    |
-
-## 🔒 Privacy & security
-
-- **Keys stay server-side.** Gemini calls run on the Express server; `GEMINI_API_KEY` is never bundled into the client.
-- **Files are processed in memory.** Uploads are parsed with multer's in-memory storage to extract text and are **not** persisted.
-- **Your data is yours.** Firestore reads/writes are scoped by `userId`; you only ever see your own analyses and applications, and deletes target only your documents.
-- **Validation & limits.** Uploads are restricted to PDF/DOCX and 4MB; request bodies are validated; malformed AI responses are handled gracefully.
-
-## 📌 Notes & limitations
-
-- **Job matches are static sample roles** for demonstration — not live job listings. Integrating a real jobs API is a future enhancement.
-- **Uploaded files are parsed in memory** and not stored anywhere.
-- AI features require a valid server-side `GEMINI_API_KEY`; saved history/applications require a configured Firebase project.
-
-## 🔭 Future improvements
-
-- Real job-listing API integration
-- Resume version library and diffing
-- Notes, deadlines, and job links on applications
-- Richer cover letter formatting/export (PDF/DOCX)
-- Route-level code splitting
+> **Redeploy after changing environment variables.** Vercel injects env vars at build/runtime, so a new deployment is required for changes to take effect.
 
 ---
 
-*Transform your job search with data-driven, AI-powered insights.*
+## 🧪 Troubleshooting
+
+<details>
+<summary><strong>AI features are not configured on the server (missing GEMINI_API_KEY)</strong></summary>
+
+- Add `GEMINI_API_KEY` in **Vercel → Settings → Environment Variables**.
+- Ensure it is enabled for the **Production** environment.
+- **Redeploy** after adding or changing it.
+- Confirm the variable name is exactly `GEMINI_API_KEY` (no `VITE_` prefix).
+</details>
+
+<details>
+<summary><strong>AI returns "temporarily unavailable" / HTTP 429</strong></summary>
+
+- The Gemini API key has exceeded its quota. Check usage in [Google AI Studio](https://aistudio.google.com/apikey).
+- Enable billing on the key's Google Cloud project for higher limits, or wait for the free-tier reset.
+- Optionally set `GEMINI_MODEL` to a model with available quota.
+</details>
+
+<details>
+<summary><strong>Sign-in was cancelled or failed</strong></summary>
+
+- Enable **Google** sign-in in Firebase Authentication.
+- Add your Vercel domain to **Authorized domains** (without `https://` and without a trailing slash).
+- Check for a browser popup blocker.
+- Inspect the browser console for the Firebase Auth error code.
+</details>
+
+<details>
+<summary><strong>Firestore permission denied</strong></summary>
+
+- Make sure the user is signed in.
+- Confirm the Firestore database has been created.
+- Publish the recommended security rules.
+- Ensure saved documents include the `userId` field matching the signed-in user.
+</details>
+
+<details>
+<summary><strong>Resume upload fails</strong></summary>
+
+- Confirm the file is a **PDF or DOCX**.
+- Confirm the file size is **below 4MB** (serverless body limit).
+- Check the API route logs in **Vercel → Deployments → Functions**.
+</details>
+
+---
+
+## 📡 API Overview
+
+All endpoints are served under `/api`. AI endpoints require a server-side `GEMINI_API_KEY`; none require user authentication (auth is handled client-side, and saved data is protected by Firestore rules).
+
+| Method | Endpoint | Auth | Purpose |
+| --- | --- | --- | --- |
+| `GET` | `/api/health` | No | Health check — returns `{ status, timestamp, service }`. |
+| `POST` | `/api/resume/upload` | No | Accepts a PDF/DOCX upload (≤ 4MB), extracts text in memory, returns `{ filename, text, characters }`. |
+| `POST` | `/api/resume/analyze` | No | Accepts `{ resumeText }`, calls Gemini, returns structured resume analysis JSON. |
+| `POST` | `/api/resume/targeted-analysis` | No | Accepts `{ resumeText, jobDescription }`, returns match score, keyword gaps, and tailoring suggestions. |
+| `POST` | `/api/cover-letter/generate` | No | Accepts `{ resumeText, jobDescription, companyName, jobTitle }`, returns `{ coverLetter }`. |
+| `POST` | `/api/jobs/match` | No | Accepts `{ resume_skills }`, returns ranked **sample** roles with matched/missing skills. |
+
+> **Note:** Job matches use a curated static dataset (`server/data/jobs.ts`) and are clearly presented as sample recommendations, not live listings.
+
+---
+
+## 🔒 Security Notes
+
+- **Gemini key is server-side only** — it lives in environment variables and is never bundled into the client.
+- **Firebase web config is public by design**, but access is controlled via **Authorized Domains** and **Firestore security rules** — both must be configured correctly.
+- **Firestore rules restrict access** so users can only read and write their own `analyses` and `applications` documents.
+- **Resumes are processed in memory** and are never persisted to disk or storage.
+- **Full resume content is not logged** in production.
+- **`.env` files are git-ignored** and must never be committed.
+
+---
+
+## 🗺️ Roadmap
+
+- [ ] Real job board / job platform integration
+- [ ] LinkedIn / job platform resume import
+- [ ] Resume version comparison and diffing
+- [ ] Multi-resume profile support
+- [ ] PDF export for analysis reports
+- [ ] Advanced ATS keyword ranking
+- [ ] Cover letter templates
+- [ ] Recruiter-facing dashboard
+- [ ] Application analytics
+- [ ] CI/CD pipeline improvements
+
+---
+
+## 💡 Skills Demonstrated
+
+This project demonstrates:
+
+- Full-stack **TypeScript** development (React frontend + serverless backend)
+- **AI API integration** with Google Gemini and robust structured-output handling
+- **Serverless deployment** on Vercel with shared service logic across runtimes
+- **Firebase Authentication** and **Cloud Firestore** with user-scoped security rules
+- **Secure environment variable handling** (keeping secrets server-side)
+- **File upload and parsing** (PDF/DOCX, in-memory, multipart)
+- **Prompt engineering** for reliable, structured AI responses
+- **Responsive UI engineering** with a reusable component/design system
+- **Production deployment** and debugging using build/runtime logs
+
+---
+
+## 👤 Author
+
+**Built by Love Jayesh Ahir**
+
+- GitHub: [@la3679](https://github.com/la3679)
+- LinkedIn: [Love Ahir](https://www.linkedin.com/in/love-ahir-188356290/)
+- Portfolio: [loveahir.com](https://loveahir.com)
+
+---
+
+## 📄 License
+
+License information has not been added yet.
