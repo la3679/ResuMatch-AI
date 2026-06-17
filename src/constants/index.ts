@@ -12,11 +12,11 @@ export const ACCEPTED_MIME_TYPES = [
 /** `accept` attribute value for file inputs. */
 export const FILE_INPUT_ACCEPT = ACCEPTED_FILE_EXTENSIONS.join(',');
 
-/** Maximum resume upload size, in bytes. */
-export const MAX_FILE_SIZE_BYTES = 5 * 1024 * 1024;
+/** Maximum resume upload size, in bytes (matches the serverless body limit). */
+export const MAX_FILE_SIZE_BYTES = 4 * 1024 * 1024;
 
 /** Human-readable maximum file size. */
-export const MAX_FILE_SIZE_LABEL = '5MB';
+export const MAX_FILE_SIZE_LABEL = '4MB';
 
 /** Application status options with display metadata. */
 export const APPLICATION_STATUSES: {

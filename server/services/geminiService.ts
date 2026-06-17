@@ -1,6 +1,6 @@
 import { GoogleGenAI, Type } from '@google/genai';
 import { env, isAiConfigured } from '../env';
-import { ApiError } from '../lib/errors';
+import { ApiError } from '../lib/ApiError';
 import { parseJsonResponse } from '../lib/safeJson';
 import type { ResumeAnalysis, TargetedAnalysis } from '../../src/types/resume';
 

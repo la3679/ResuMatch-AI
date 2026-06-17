@@ -3,7 +3,7 @@ import type { ResumeAnalysis, TargetedAnalysis } from '../types/resume';
 import type { JobMatch } from '../types/job';
 import type { UploadResult, CoverLetterResult, ApiErrorBody } from '../types/api';
 
-const api = axios.create({ baseURL: '/api/v1' });
+const api = axios.create({ baseURL: '/api' });
 
 /**
  * Normalizes an Axios error into a user-friendly message, preferring the

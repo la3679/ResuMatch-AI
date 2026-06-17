@@ -1,17 +1,10 @@
 import type { ErrorRequestHandler, Request, Response, NextFunction } from 'express';
 import { MulterError } from 'multer';
 import { MAX_FILE_SIZE_LABEL } from './constants';
+import { ApiError } from './ApiError';
 
-/** An error carrying an HTTP status code and a client-safe message. */
-export class ApiError extends Error {
-  status: number;
-
-  constructor(status: number, message: string) {
-    super(message);
-    this.name = 'ApiError';
-    this.status = status;
-  }
-}
+// Re-export so existing `import { ApiError } from './errors'` paths keep working.
+export { ApiError };
 
 /** Centralized Express error handler returning a consistent `{ error }` body. */
 export const errorHandler: ErrorRequestHandler = (

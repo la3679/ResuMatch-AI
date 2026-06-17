@@ -13,11 +13,11 @@ async function startServer() {
 
   app.use(express.json({ limit: '2mb' }));
 
-  // --- API routes ---
-  app.use('/api/v1/health', healthRouter);
-  app.use('/api/v1/resume', resumeRouter);
-  app.use('/api/v1/cover-letter', coverLetterRouter);
-  app.use('/api/v1/jobs', jobsRouter);
+  // --- API routes (mirror the Vercel /api/* function paths for local dev) ---
+  app.use('/api/health', healthRouter);
+  app.use('/api/resume', resumeRouter);
+  app.use('/api/cover-letter', coverLetterRouter);
+  app.use('/api/jobs', jobsRouter);
 
   // Unknown API routes return JSON 404 (never the SPA shell).
   app.use('/api', (_req, res) => {

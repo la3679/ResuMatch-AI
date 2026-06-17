@@ -1,4 +1,4 @@
-import { ApiError } from './errors';
+import { ApiError } from './ApiError';
 
 /**
  * Parses JSON returned by an LLM, tolerating markdown code fences and
