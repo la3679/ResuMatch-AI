@@ -1,6 +1,6 @@
 import mammoth from 'mammoth';
 import { PDFParse } from 'pdf-parse';
-import { ApiError } from '../lib/ApiError';
+import { ApiError } from '../lib/ApiError.js';
 
 /**
  * Extracts plain text from an uploaded PDF or DOCX buffer.

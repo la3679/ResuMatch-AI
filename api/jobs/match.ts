@@ -1,7 +1,7 @@
 import type { VercelRequest, VercelResponse } from '@vercel/node';
-import { handlePreflight, sendError, fail } from '../../server/lib/http';
-import { ApiError } from '../../server/lib/ApiError';
-import { matchJobsToSkills } from '../../server/services/jobMatch';
+import { handlePreflight, sendError, fail } from '../../server/lib/http.js';
+import { ApiError } from '../../server/lib/ApiError.js';
+import { matchJobsToSkills } from '../../server/services/jobMatch.js';
 
 export default function handler(req: VercelRequest, res: VercelResponse): void {
   if (handlePreflight(req, res)) return;

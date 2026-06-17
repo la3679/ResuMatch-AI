@@ -1,5 +1,5 @@
 import type { VercelRequest, VercelResponse } from '@vercel/node';
-import { ApiError } from './ApiError';
+import { ApiError } from './ApiError.js';
 
 /**
  * Shared helpers for Vercel serverless API routes (kept out of the `/api`

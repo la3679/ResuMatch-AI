@@ -1,7 +1,7 @@
 import { GoogleGenAI, Type } from '@google/genai';
-import { env, isAiConfigured } from '../env';
-import { ApiError } from '../lib/ApiError';
-import { parseJsonResponse } from '../lib/safeJson';
+import { env, isAiConfigured } from '../env.js';
+import { ApiError } from '../lib/ApiError.js';
+import { parseJsonResponse } from '../lib/safeJson.js';
 import type { ResumeAnalysis, TargetedAnalysis } from '../../src/types/resume';
 
 let client: GoogleGenAI | null = null;

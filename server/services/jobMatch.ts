@@ -1,4 +1,4 @@
-import { JOBS } from '../data/jobs';
+import { JOBS } from '../data/jobs.js';
 import type { JobMatch } from '../../src/types/job';
 
 /** Lowercases, trims, and de-duplicates a list of skills. */

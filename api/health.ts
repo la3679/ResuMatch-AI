@@ -1,5 +1,5 @@
 import type { VercelRequest, VercelResponse } from '@vercel/node';
-import { handlePreflight } from '../server/lib/http';
+import { handlePreflight } from '../server/lib/http.js';
 
 export default function handler(req: VercelRequest, res: VercelResponse): void {
   if (handlePreflight(req, res)) return;

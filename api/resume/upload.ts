@@ -1,13 +1,13 @@
 import type { VercelRequest, VercelResponse } from '@vercel/node';
 import Busboy from 'busboy';
-import { handlePreflight, sendError, fail } from '../../server/lib/http';
-import { ApiError } from '../../server/lib/ApiError';
-import { extractResumeText } from '../../server/services/parseFile';
+import { handlePreflight, sendError, fail } from '../../server/lib/http.js';
+import { ApiError } from '../../server/lib/ApiError.js';
+import { extractResumeText } from '../../server/services/parseFile.js';
 import {
   ACCEPTED_EXTENSIONS,
   MAX_FILE_SIZE_BYTES,
   MAX_FILE_SIZE_LABEL,
-} from '../../server/lib/constants';
+} from '../../server/lib/constants.js';
 
 // Disable Vercel's body parser so we can read the multipart stream ourselves.
 export const config = { api: { bodyParser: false } };

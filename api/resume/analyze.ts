@@ -1,6 +1,6 @@
 import type { VercelRequest, VercelResponse } from '@vercel/node';
-import { handlePreflight, sendError, fail, requireString } from '../../server/lib/http';
-import { analyzeResume } from '../../server/services/geminiService';
+import { handlePreflight, sendError, fail, requireString } from '../../server/lib/http.js';
+import { analyzeResume } from '../../server/services/geminiService.js';
 
 export default async function handler(req: VercelRequest, res: VercelResponse): Promise<void> {
   if (handlePreflight(req, res)) return;
