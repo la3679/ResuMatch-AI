@@ -482,7 +482,7 @@ export default function App() {
               <History 
                 items={history} 
                 onSelect={(item) => {
-                  setAnalysis(item.analysis || item);
+                  setAnalysis((item.analysis || item) as ResumeAnalysis);
                   setCurrentFilename(item.filename);
                   setStep('dashboard');
                 }}
