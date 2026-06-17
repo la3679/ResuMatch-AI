@@ -11,7 +11,14 @@ import {
   Timestamp,
 } from 'firebase/firestore';
 import { db } from '../firebase';
+import type { Firestore } from 'firebase/firestore';
 import type { ResumeAnalysis } from '../types/resume';
+
+/** Returns the Firestore instance or throws a friendly error if unconfigured. */
+function requireDb(): Firestore {
+  if (!db) throw new Error('Saved data requires Firebase to be configured.');
+  return db;
+}
 import type {
   AnalysisRecord,
   ApplicationRecord,
@@ -28,7 +35,7 @@ export async function saveAnalysis(
   filename: string,
   analysis: ResumeAnalysis,
 ): Promise<void> {
-  await addDoc(collection(db, ANALYSES), {
+  await addDoc(collection(requireDb(),ANALYSES), {
     userId,
     filename,
     score: analysis.score,
@@ -44,7 +51,7 @@ export async function saveAnalysis(
 /** Fetches all resume analyses for a user, newest first. */
 export async function fetchAnalyses(userId: string): Promise<AnalysisRecord[]> {
   const q = query(
-    collection(db, ANALYSES),
+    collection(requireDb(),ANALYSES),
     where('userId', '==', userId),
     orderBy('createdAt', 'desc'),
   );
@@ -54,12 +61,12 @@ export async function fetchAnalyses(userId: string): Promise<AnalysisRecord[]> {
 
 /** Deletes a single analysis document by id. */
 export async function deleteAnalysis(id: string): Promise<void> {
-  await deleteDoc(doc(db, ANALYSES, id));
+  await deleteDoc(doc(requireDb(),ANALYSES, id));
 }
 
 /** Saves a targeted application for the signed-in user. */
 export async function saveApplication(input: NewApplicationInput): Promise<void> {
-  await addDoc(collection(db, APPLICATIONS), {
+  await addDoc(collection(requireDb(),APPLICATIONS), {
     ...input,
     status: input.status ?? 'saved',
     createdAt: Timestamp.now(),
@@ -70,7 +77,7 @@ export async function saveApplication(input: NewApplicationInput): Promise<void>
 /** Fetches all applications for a user, newest first. */
 export async function fetchApplications(userId: string): Promise<ApplicationRecord[]> {
   const q = query(
-    collection(db, APPLICATIONS),
+    collection(requireDb(),APPLICATIONS),
     where('userId', '==', userId),
     orderBy('createdAt', 'desc'),
   );
@@ -86,7 +93,7 @@ export async function updateApplicationStatus(
   id: string,
   status: ApplicationStatus,
 ): Promise<void> {
-  await updateDoc(doc(db, APPLICATIONS, id), {
+  await updateDoc(doc(requireDb(),APPLICATIONS, id), {
     status,
     updatedAt: Timestamp.now(),
   });
@@ -94,5 +101,5 @@ export async function updateApplicationStatus(
 
 /** Deletes a single application document by id. */
 export async function deleteApplication(id: string): Promise<void> {
-  await deleteDoc(doc(db, APPLICATIONS, id));
+  await deleteDoc(doc(requireDb(),APPLICATIONS, id));
 }
